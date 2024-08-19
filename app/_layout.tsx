@@ -30,7 +30,7 @@ const RootPage = () => {
   return (
     <Stack>
         <Stack.Screen name="index" options={{
-            headerShown: false, title: "Home"
+            headerShown: false, title: "index"
         }} />
     </Stack>
   )
