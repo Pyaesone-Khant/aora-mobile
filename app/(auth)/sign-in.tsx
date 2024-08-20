@@ -5,8 +5,9 @@ import { images } from '@/constants'
 
 // components
 import { CustomButton, FormField } from '@/components'
-import { Link } from 'expo-router'
-import { Image, ScrollView, Text, View } from 'react-native'
+import { signIn } from '@/lib/appwrite'
+import { Link, router } from 'expo-router'
+import { Alert, Image, ScrollView, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 
@@ -19,11 +20,21 @@ const SignIn = () => {
     const [loading, setLoading] = useState(false);
 
 
-    const onSubmit = () => {
+    const onSubmit = async () => {
+        if(!(form.email && form.password)){
+            Alert.alert("Error", "Please fill in all the fields");
+            return;
+        }
+
         setLoading(true);
-        setTimeout(() => {
-            setLoading(false);
-        }, 2000);
+        try {
+            const result = await signIn(form)
+            router.replace("/home")
+        } catch (error: any) {
+            Alert.alert("Error", error.message)
+        } finally {
+            setLoading(false)
+        }
     }
 
     return (
@@ -50,7 +61,7 @@ const SignIn = () => {
 
                     <CustomButton
                         title='Sign In'
-                        handlePress={() => { }}
+                        handlePress={onSubmit}
                         containerStyles='mt-8'
                         isLoading={loading}
                     />

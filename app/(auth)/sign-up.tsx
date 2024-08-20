@@ -5,8 +5,9 @@ import { images } from '@/constants'
 
 // components
 import { CustomButton, FormField } from '@/components'
-import { Link } from 'expo-router'
-import { Image, ScrollView, Text, View } from 'react-native'
+import { createUser } from '@/lib/appwrite'
+import { Link, router } from 'expo-router'
+import { Alert, Image, ScrollView, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 
@@ -20,17 +21,31 @@ const SignUp = () => {
     const [loading, setLoading] = useState(false);
 
 
-    const onSubmit = () => {
+    const onSubmit = async () => {
+        if(!(form.username && form.email && form.password)){
+            Alert.alert("Error", "Please fill in all the fields");
+            return;
+        }
+
         setLoading(true);
-        setTimeout(() => {
-            setLoading(false);
-        }, 2000);
+        try {
+            const result = await createUser(form)
+
+            router.replace("/home")
+
+        } catch (error: any) {
+            Alert.alert("Error", error.message)
+        } finally {
+            setLoading(false)
+        }
     }
 
     return (
         <SafeAreaView className="bg-primary h-full" >
-            <ScrollView>
-                <View className="w-full justify-center min-h-[85vh] px-4 my-6" >
+            <ScrollView contentContainerStyle={{
+                justifyContent: "center"
+            }} >
+                <View className="w-full justify-center min-h-[85vh] px-4 my-6">
                     <Image source={images.logo} className='w-[115px] h-[35px]' />
                     <Text className='text-white text-2xl font-psemibold mt-10' > Sign up to Aora </Text>
 
@@ -58,7 +73,7 @@ const SignUp = () => {
 
                     <CustomButton
                         title='Sign Up'
-                        handlePress={() => { }}
+                        handlePress={onSubmit}
                         containerStyles='mt-8'
                         isLoading={loading}
                     />
