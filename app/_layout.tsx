@@ -36,6 +36,12 @@ const RootPage = () => {
             <Stack.Screen name="index" options={{
                 headerShown: false, title: "index"
             }} />
+            <Stack.Screen name="(auth)" options={{
+                headerShown: false
+            }} />
+            <Stack.Screen name="(tabs)" options={{
+                headerShown: false
+            }} />
         </Stack>
     )
 }
