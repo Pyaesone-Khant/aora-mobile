@@ -12,10 +12,12 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 // apis
 import { getAllPosts, getLatestPosts } from '@/lib/appwrite'
 import useAppwrite from '@/lib/useAppwrite'
+import { useLocalSearchParams } from 'expo-router'
 
 const Home = () => {
 
     const [refreshing, setRefreshing] = useState(false);
+    const { query } = useLocalSearchParams()
 
     const { data: posts, refetch } = useAppwrite(getAllPosts);
     const { data: latestPosts } = useAppwrite(getLatestPosts);
@@ -31,7 +33,7 @@ const Home = () => {
             <FlatList
                 data={posts}
                 renderItem={({ item }) => <VideoCard item={item} key={item.id} />}
-                keyExtractor={(item) => item.$id}
+                keyExtractor={(item) => item.id}
                 ListHeaderComponent={() => (
                     <View className='my-6 px-4 space-y-6'>
                         <View className="justify-between items-start flex-row mb-6" >
@@ -47,7 +49,7 @@ const Home = () => {
                                 <Image source={images.logoSmall} className='w-9 h-10' resizeMode='contain' />
                             </View>
                         </View>
-                        <SearchInput value='' handleChange={() => { }} />
+                        <SearchInput initialQuery={query as string} />
                         <View className='w-full flex-1 py-6'>
                             <Text className='text-gray-100 text-base font-pregular' >
                                 Latest Videos

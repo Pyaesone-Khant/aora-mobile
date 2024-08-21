@@ -8,7 +8,7 @@ import { PostProps } from "@/types/typings";
 
 // components
 import { ResizeMode, Video } from "expo-av";
-import { FlatList, Image, ImageBackground, TouchableOpacity } from "react-native";
+import { FlatList, Image, ImageBackground, TouchableOpacity, ViewToken } from "react-native";
 
 // third party
 import * as Animatable from "react-native-animatable";
@@ -76,8 +76,8 @@ const TrendingItem = ({ activeItem, item }: TrendingItemProps) => {
 
 const TrendingVideos = ({ posts }: { posts: PostProps[] }) => {
 
-    const [activeItem, setActiveItem] = useState(posts[0]);
-    const onViewalbeItemChange = ({ viewableItems }) => {
+    const [activeItem, setActiveItem] = useState(posts[0]?.id);
+    const onViewalbeItemChange = ({ viewableItems }: { viewableItems: ViewToken[] }) => {
         if (viewableItems.length > 0) {
             setActiveItem(viewableItems[0].key)
         }

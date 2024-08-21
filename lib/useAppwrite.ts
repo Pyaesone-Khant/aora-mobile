@@ -16,8 +16,8 @@ const useAppwrite = (fn: any) => {
         setLoading(true);
         try {
             const res = await fn();
-            const mappedPosts = res.map((doc: Models.Document) => ({ id: doc.$id, ...doc }));
-            setData(mappedPosts);
+            const transformedData = res.documents.map((doc: Models.Document) => ({ id: doc.$id, ...doc }))
+            setData(transformedData);
         } catch (error: any) {
             Alert.alert('Error', error.message)
         } finally {
