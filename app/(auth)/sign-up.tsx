@@ -5,6 +5,7 @@ import { images } from '@/constants'
 
 // components
 import { CustomButton, FormField } from '@/components'
+import { useGlobalContext } from '@/context/GlobalProvider'
 import { createUser } from '@/lib/appwrite'
 import { Link, router } from 'expo-router'
 import { Alert, Image, ScrollView, Text, View } from 'react-native'
@@ -18,25 +19,24 @@ const SignUp = () => {
         email: '',
         password: ''
     });
-    const [loading, setLoading] = useState(false);
-
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const { setUser, setIsLoggedIn } = useGlobalContext();
 
     const onSubmit = async () => {
-        if(!(form.username && form.email && form.password)){
+        if (!(form.username && form.email && form.password)) {
             Alert.alert("Error", "Please fill in all the fields");
             return;
         }
-
-        setLoading(true);
+        setIsSubmitting(true);
         try {
             const result = await createUser(form)
-
+            setUser(result);
+            setIsLoggedIn(true);
             router.replace("/home")
-
         } catch (error: any) {
             Alert.alert("Error", error.message)
         } finally {
-            setLoading(false)
+            setIsSubmitting(false)
         }
     }
 
@@ -75,7 +75,7 @@ const SignUp = () => {
                         title='Sign Up'
                         handlePress={onSubmit}
                         containerStyles='mt-8'
-                        isLoading={loading}
+                        isLoading={isSubmitting}
                     />
 
                     <View className="justify-center items-center py-6 flex-row gap-2">

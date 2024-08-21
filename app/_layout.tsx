@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import { useFonts } from 'expo-font';
 
 // components
+import { GlobalProvider } from '@/context/GlobalProvider';
 import { SplashScreen, Stack } from 'expo-router';
 
 SplashScreen.preventAutoHideAsync();
@@ -32,20 +33,22 @@ const RootPage = () => {
     if (!fontsLoaded && !error) return null;
 
     return (
-        <Stack>
-            <Stack.Screen name="index" options={{
-                headerShown: false, title: "index"
-            }} />
-            <Stack.Screen name="(auth)" options={{
-                headerShown: false
-            }} />
-            <Stack.Screen name="(tabs)" options={{
-                headerShown: false
-            }} />
-            {/* <Stack.Screen name="/search/[query]" options={{
+        <GlobalProvider>
+            <Stack>
+                <Stack.Screen name="index" options={{
+                    headerShown: false, title: "index"
+                }} />
+                <Stack.Screen name="(auth)" options={{
+                    headerShown: false
+                }} />
+                <Stack.Screen name="(tabs)" options={{
+                    headerShown: false
+                }} />
+                {/* <Stack.Screen name="/search/[query]" options={{
                 headerShown: false
             }} /> */}
-        </Stack>
+            </Stack>
+        </GlobalProvider>
     )
 }
 
