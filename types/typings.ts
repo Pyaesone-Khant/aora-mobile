@@ -10,7 +10,7 @@ export type SignInProps = {
 }
 
 export type PostProps = {
-    id: string,
+    $id: string,
     title: string,
     prompt?: string;
     thumbnail: string,

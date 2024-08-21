@@ -5,11 +5,11 @@ import { images } from '@/constants'
 
 // components
 import { NoData, SearchInput, TrendingVideos, VideoCard } from '@/components'
-import { StatusBar } from 'expo-status-bar'
 import { FlatList, Image, RefreshControl, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 // apis
+import { useGlobalContext } from '@/context/GlobalProvider'
 import { getAllPosts, getLatestPosts } from '@/lib/appwrite'
 import useAppwrite from '@/lib/useAppwrite'
 import { useLocalSearchParams } from 'expo-router'
@@ -18,6 +18,7 @@ const Home = () => {
 
     const [refreshing, setRefreshing] = useState(false);
     const { query } = useLocalSearchParams()
+    const { user } = useGlobalContext();
 
     const { data: posts, refetch } = useAppwrite(getAllPosts);
     const { data: latestPosts } = useAppwrite(getLatestPosts);
@@ -32,8 +33,8 @@ const Home = () => {
         <SafeAreaView className='bg-primary h-full'>
             <FlatList
                 data={posts}
-                renderItem={({ item }) => <VideoCard item={item} key={item.id} />}
-                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => <VideoCard item={item} key={item.$id} />}
+                keyExtractor={(item) => item.$id}
                 ListHeaderComponent={() => (
                     <View className='my-6 px-4 space-y-6'>
                         <View className="justify-between items-start flex-row mb-6" >
@@ -42,7 +43,7 @@ const Home = () => {
                                     Welcome Back
                                 </Text>
                                 <Text className='text-2xl font-psemibold text-gray-100'>
-                                    Wooki Dooki
+                                    {user?.username}
                                 </Text>
                             </View>
                             <View className='mt-1.5'>
@@ -62,7 +63,6 @@ const Home = () => {
                 refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
             />
 
-            <StatusBar style="light" />
         </SafeAreaView>
     )
 }

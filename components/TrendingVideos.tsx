@@ -43,7 +43,7 @@ const TrendingItem = ({ activeItem, item }: TrendingItemProps) => {
     return (
         <Animatable.View
             className="mr-5"
-            animation={activeItem === item.id ? zoomIn : zoomOut}
+            animation={activeItem === item.$id ? zoomIn : zoomOut}
             duration={500}
         >
             {
@@ -76,7 +76,7 @@ const TrendingItem = ({ activeItem, item }: TrendingItemProps) => {
 
 const TrendingVideos = ({ posts }: { posts: PostProps[] }) => {
 
-    const [activeItem, setActiveItem] = useState(posts[0]?.id);
+    const [activeItem, setActiveItem] = useState(posts[0]?.$id);
     const onViewalbeItemChange = ({ viewableItems }: { viewableItems: ViewToken[] }) => {
         if (viewableItems.length > 0) {
             setActiveItem(viewableItems[0].key)
@@ -85,8 +85,8 @@ const TrendingVideos = ({ posts }: { posts: PostProps[] }) => {
 
     return <FlatList
         data={posts}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <TrendingItem activeItem={activeItem} item={item} key={item.id} />}
+        keyExtractor={(item) => item.$id}
+        renderItem={({ item }) => <TrendingItem activeItem={activeItem} item={item} key={item.$id} />}
         horizontal
         onViewableItemsChanged={onViewalbeItemChange}
         viewabilityConfig={{

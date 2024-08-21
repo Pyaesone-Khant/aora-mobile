@@ -27,8 +27,8 @@ const Search = () => {
         <SafeAreaView className='bg-primary h-full'>
             <FlatList
                 data={posts}
-                renderItem={({ item }) => <VideoCard item={item} key={item.id} />}
-                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => <VideoCard item={item} key={item.$id} />}
+                keyExtractor={(item) => item.$id}
                 ListHeaderComponent={() => (
                     <View className='my-6 px-4 space-y-6'>
                         <View className="justify-between items-start flex-row mb-6" >

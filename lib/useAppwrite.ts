@@ -1,7 +1,6 @@
 import { PostProps } from "@/types/typings";
 import { useEffect, useState } from "react";
 import { Alert } from "react-native";
-import { Models } from "react-native-appwrite";
 
 const useAppwrite = (fn: any) => {
 
@@ -16,8 +15,7 @@ const useAppwrite = (fn: any) => {
         setLoading(true);
         try {
             const res = await fn();
-            const transformedData = res.documents.map((doc: Models.Document) => ({ id: doc.$id, ...doc }))
-            setData(transformedData);
+            setData(res);
         } catch (error: any) {
             Alert.alert('Error', error.message)
         } finally {

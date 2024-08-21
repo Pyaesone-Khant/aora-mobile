@@ -9,7 +9,7 @@ import { Alert, Image, TextInput, TouchableOpacity, View } from "react-native";
 
 const SearchInput = ({ initialQuery }: { initialQuery: string }) => {
 
-    const [query, setQuery] = useState("" || initialQuery);
+    const [query, setQuery] = useState("");
     const pathname = usePathname();
 
     const onChange = (text: string) => {

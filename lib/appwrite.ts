@@ -85,12 +85,12 @@ export const getCurrentUser = async () => {
 
 export const getAllPosts = async () => {
     try {
-        const posts = await databases.listDocuments(
+        const res = await databases.listDocuments(
             databaseId,
             videoCollectionId,
         );
 
-        return posts.documents
+        return res.documents
 
     } catch (error: any) {
         throw new Error(error)
@@ -99,12 +99,12 @@ export const getAllPosts = async () => {
 
 export const getLatestPosts = async () => {
     try {
-        const posts = await databases.listDocuments(
+        const res = await databases.listDocuments(
             databaseId,
             videoCollectionId,
             [Query.orderDesc('$createdAt'), Query.limit(7)]
         );
-        return posts.documents
+        return res.documents
     } catch (error: any) {
         throw new Error(error)
     }
@@ -112,13 +112,27 @@ export const getLatestPosts = async () => {
 
 export const searchPosts = async (query: string) => {
     try {
-        const posts = await databases.listDocuments(
+        const res = await databases.listDocuments(
             databaseId,
             videoCollectionId,
             [Query.search("title", query)]
         );
 
-        return posts;
+        return res.documents;
+    } catch (error: any) {
+        throw new Error(error)
+    }
+}
+
+export const getUserPosts = async (userId: string) => {
+    try {
+        const res = await databases.listDocuments(
+            databaseId,
+            videoCollectionId,
+            [Query.equal("creator", userId)]
+        );
+
+        return res.documents;
     } catch (error: any) {
         throw new Error(error)
     }

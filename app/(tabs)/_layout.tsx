@@ -109,7 +109,7 @@ const TabsLayout = () => {
                     }}
                 />
             </Tabs>
-            <StatusBar backgroundColor="#161622" style="inverted" />
+            <StatusBar backgroundColor="#161622" style="light" />
         </>
     );
 };
