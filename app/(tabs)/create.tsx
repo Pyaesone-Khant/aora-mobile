@@ -1,12 +1,13 @@
 import React from 'react'
-import { Text, View } from 'react-native'
+import { Text } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const Create = () => {
-  return (
-    <View>
-      <Text className="text-center p-4 text-lg font-pbold">Create New</Text>
-    </View>
-  )
+    return (
+        <SafeAreaView>
+            <Text className="text-center p-4 text-lg font-pbold">Create New</Text>
+        </SafeAreaView>
+    )
 }
 
 export default Create
