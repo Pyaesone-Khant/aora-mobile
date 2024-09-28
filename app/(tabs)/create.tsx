@@ -3,7 +3,7 @@ import { icons } from '@/constants'
 import { useGlobalContext } from '@/context/GlobalProvider'
 import { createVideo } from '@/lib/appwrite'
 import { ResizeMode, Video } from 'expo-av'
-import * as DocumentPicker from "expo-document-picker"
+import * as ImagePicker from "expo-image-picker"
 import React, { useState } from 'react'
 import { Alert, Image, ScrollView, Text, TouchableOpacity } from 'react-native'
 import { View } from 'react-native-animatable'
@@ -21,8 +21,11 @@ const Create = () => {
     const [loading, setLoading] = useState(false)
 
     const openPicker = async (fileType: "video" | "image") => {
-        const result = await DocumentPicker.getDocumentAsync({
-            type: fileType === "image" ? ["image/png", "image/jpg", "image/jpeg"] : ["video/mp4", "video/gif"]
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: fileType === "image" ? ImagePicker.MediaTypeOptions.Images : ImagePicker.MediaTypeOptions.Videos,
+            allowsEditing: true,
+            aspect: [4,3],
+            quality: 1
         })
 
         if(!result.canceled){
@@ -45,6 +48,7 @@ const Create = () => {
 
         try {
             await createVideo({...form, userId: user.$id})
+
             Alert.alert("Success", "Post uploaded successfully!")
         } catch (error: any) {
             Alert.alert("Error", error?.message)
