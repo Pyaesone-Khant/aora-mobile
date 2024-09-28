@@ -11,20 +11,22 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 // apis
 import { icons } from '@/constants';
 import { useGlobalContext } from '@/context/GlobalProvider';
-import { getUserPosts } from '@/lib/appwrite';
+import { getUserPosts, signOut } from '@/lib/appwrite';
 import useAppwrite from '@/lib/useAppwrite';
+import { router } from 'expo-router';
 
 const Profile = () => {
 
     const { user, setUser, setIsLoggedIn } = useGlobalContext();
     const { data: posts, refetch } = useAppwrite(() => getUserPosts(user?.$id));
 
-    const onLogout = () => {
-
+    const onLogout =  async () => {
+        await signOut();
+        setUser(null);
+        setIsLoggedIn(false)
+        router.replace("/sign-in")
     }
-
-    console.log(user)
-
+    
     return (
         <SafeAreaView className='bg-primary h-full'>
             <FlatList
